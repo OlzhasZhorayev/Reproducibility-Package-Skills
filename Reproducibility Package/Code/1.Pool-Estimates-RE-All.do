@@ -1,0 +1,155 @@
+
+* Load data
+use "${data}/Data_clean.dta", clear
+
+*******************************************************************************
+* 1. Data Cleaning
+*******************************************************************************
+
+* Remove estimates based on training
+drop if training == "yes"
+
+* Drop if estimates are expressed as standard deviation
+keep if ind_var_measure == "Standard deviation"
+
+replace methodology = "IV" if methodology == "2,3" | methodology == "2"
+replace methodology = "OLS" if methodology == "3"
+
+replace vble2 =  "" if strpos(vble2, "tenure") > 0
+keep if inlist(type, "Big Five", "Cognitive")
+replace type = "Cognitive Skills" if type == "Cognitive"
+
+replace region = "Latin America" if region == "Latin America and the Caribbean"
+replace region = "North America" if region == "Northern America"
+
+* Additional cleaning
+
+replace inc_class = "Developing Countries" ///
+	if inc_class == "Lower Middle Income" | inc_class == "Upper Middle Income"
+
+replace educ_control = "Controlled" if educ_control == "Yes"
+replace educ_control = "Not Controlled" if educ_control == "No"
+
+replace sample_popn = "Female" if sample_popn == "female"
+replace sample_popn = "Male" if sample_popn == "male"
+
+gen gender = .
+replace gender = 1 if sample_popn == "Female"
+replace gender = 2 if sample_popn == "Male"
+replace gender = 3 if sample_popn != "Female" & sample_popn != "Male"
+label define gender_lbl 1 "Female" 2 "Male" 3 "Mixed"
+label values gender gender_lbl
+
+drop if studylbl == "Chowdhury (2017)"
+
+*******************************************************************************
+* 2. Descriptive Statistics
+*******************************************************************************
+
+* By region
+tab type region
+tab type region, cell
+tab type region, row
+
+tab type region, col
+tab educ_control region, col
+tab gender region, col
+tab methodology region, col
+
+* By income group
+tab type inc_class, col
+tab educ_control inc_class, col
+tab gender inc_class, col
+tab methodology inc_class, col
+
+*******************************************************************************
+* 3. Set Meta Variables (Random Effects)
+*******************************************************************************
+
+meta set effectsize2 std_error2, studylabel(studylbl) 
+
+*******************************************************************************
+* 4. Heterogeneity 
+*******************************************************************************
+
+* Define grouping variables
+local groups "group1 group2 group3 group4 group5 group6"
+
+replace methodology = "2" if methodology == "2,3"
+
+* Create grouping variables
+gen group1 = type
+gen group2 = vble2 if type == "Big Five"
+gen group3 = educ_control if inlist(type, "Big Five")
+gen group4 = inc_class if inlist(type, "Big Five")
+gen group5 = sample_popn if inlist(sample_popn, "Male", "Female")
+gen group6 = methodology if inlist(type, "Big Five")
+
+*******************************************************************************
+* 5. Run Meta-Analysis (Random Effects) and Export Group Results
+*******************************************************************************
+
+* Create Excel sheets and set up headers for both sheets
+
+putexcel set "${temp}/Pooled_Estimates_RE_All.xlsx", replace sheet("Sheet1")
+putexcel A1 = "Group" B1 = "Subgroup" C1 = "Theta" ///
+		 D1 = "SE" E1 = "p-value" F1 = "N"
+local row1 = 2
+
+putexcel set "${temp}/Pooled_Estimates_RE_All.xlsx", modify sheet("Sheet2")
+putexcel A1 = "Group" B1 = "Subgroup" C1 = "Theta" ///
+		 D1 = "SE" E1 = "p-value" F1 = "N"
+local row2 = 2
+
+* Apply value labels to grouping variables 
+label var group1 "Skill type"
+label var group2 "Big Five"
+label var group3 "Education"
+label var group4 "Income level"
+label var group5 "Gender"
+label var group6 "Methodology"
+
+* Loop over each group
+local groups "group1 group2 group3 group4 group5 group6"
+foreach group of local groups {
+
+    * Get the label of the group
+    local group_label : variable label `group'
+
+    * Get the distinct values for the current group
+    levelsof `group', local(subgroups)
+
+    * Loop through each subgroup within the current group
+    foreach subgroup of local subgroups {
+
+        * Run the meta-analysis for the current subgroup
+        quietly meta summarize if `group' == "`subgroup'"
+        if _rc != 0 continue  // Skip problematic subgroups 
+
+        * Store the results for the current subgroup
+        local theta = r(theta)
+        local se = r(se)
+        local N = r(N)
+        local z = `theta' / `se'
+        local pval = 2 * (1 - normal(abs(`z')))
+
+        * Allocate group1 to Sheet1 and others to Sheet2
+        if "`group'" == "group1" {
+            putexcel set "${temp}/Pooled_Estimates_RE_All.xlsx", ///
+				modify sheet("Sheet1")
+            putexcel A`row1' = "`group_label'" B`row1' = "`subgroup'" ///
+                C`row1' = `theta' D`row1' = `se' E`row1' = `pval' F`row1' = `N'
+            local row1 = `row1' + 1
+        }
+        else {
+            putexcel set "${temp}/Pooled_Estimates_RE_All.xlsx", ///
+				modify sheet("Sheet2")
+            putexcel A`row2' = "`group_label'" B`row2' = "`subgroup'" ///
+                C`row2' = `theta' D`row2' = `se' E`row2' = `pval' F`row2' = `N'
+            local row2 = `row2' + 1
+        }
+    }
+}
+
+* End of do-file **************************************************************	
+
