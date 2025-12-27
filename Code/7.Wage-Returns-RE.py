@@ -3,8 +3,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
+from paths import TEMP_DIR, FIG_DIR
+
 # Read data
-file_path = '/Users/Admin/OneDrive - George Mason University - O365 Production/Documents/GMU/Dr Kugler/Skills/Reproducibility Package/Temp/Pooled_Estimates_RE_All.xlsx'
+#file_path = '/Users/Admin/OneDrive - George Mason University - O365 Production/Documents/GMU/Dr Kugler/Skills/Reproducibility Package/Temp/Pooled_Estimates_RE_All.xlsx'
+file_path = TEMP_DIR / "Pooled_Estimates_RE_All.xlsx"
 
 df = pd.read_excel(file_path)
 
@@ -90,7 +93,8 @@ plt.tight_layout()
 plt.subplots_adjust(left=0.25, bottom=0.15, top=0.9, right=0.95)
 
 # Save the plot
-output_file = '/Users/Admin/OneDrive - George Mason University - O365 Production/Documents/GMU/Dr Kugler/Skills/Reproducibility Package/Figures/Figure1.WageReturnsRE.png'
+#output_file = '/Users/Admin/OneDrive - George Mason University - O365 Production/Documents/GMU/Dr Kugler/Skills/Reproducibility Package/Figures/Figure1.WageReturnsRE.png'
+output_file = FIG_DIR / "Figure1.WageReturns.png" 
 plt.savefig(output_file, dpi=300, bbox_inches='tight')  # Change dpi (dots per inch) for the resolution of the image
 
 # Show the plot
