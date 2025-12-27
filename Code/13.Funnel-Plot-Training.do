@@ -1,5 +1,6 @@
 
 * Load data
+do "Setup.do"
 import excel "${data}\Training_data_clean.xlsx", sheet("Database") firstrow clear
 
 *******************************************************************************
