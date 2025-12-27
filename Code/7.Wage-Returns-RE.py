@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
+# Load Temp and Figures directory paths defined in paths.py
 from paths import TEMP_DIR, FIG_DIR
 
 # Read data
