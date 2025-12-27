@@ -28,6 +28,9 @@ def run_py(py_file: str):
     subprocess.run(cmd, check=True, env=env, cwd=str(CODE_DIR))
 
 if __name__ == "__main__":
+    
+    run_stata("00_Setup.do")
+
     # --- DATA PREPARATION (Stata) ---
     run_stata("1.Pool-Estimates-RE-All.do")
     run_stata("2.Pool-Estimates-Training.do")
