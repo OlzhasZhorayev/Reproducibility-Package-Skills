@@ -17,7 +17,22 @@ clear all
 set more off
 
 * Read project root from environment variable set by run_all.py
-global dir "$REPRO_DIR"
+
+** If called from Python, REPRO_DIR should be available
+local repro = "$REPRO_DIR"
+
+** Fallback: if REPRO_DIR is not available, infer project root from the
+** location of the current working directory
+if "`repro'" == "" {
+    * If running from within the Code/ folder, go one level up to the project root
+    local repro = c(pwd)
+    if substr("`repro'", -5, .) == "\Code" {
+        local repro = substr("`repro'", 1, length("`repro'")-5)
+    }
+}
+
+** Define project root directory
+global dir "`repro'"
 
 * Project folders
 global data    "${dir}\Data"
