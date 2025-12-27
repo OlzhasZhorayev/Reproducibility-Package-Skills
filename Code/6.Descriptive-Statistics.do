@@ -1,9 +1,9 @@
 
 * Load data
+do "Setup.do"
 //use "${data}/Data_clean.dta", clear
 
-
-use "C:\Users\wb627960\OneDrive - WBG\Documents\Skills\Reproducibility Package\Data\Data_clean.dta", clear
+//use "C:\Users\wb627960\OneDrive - WBG\Documents\Skills\Reproducibility Package\Data\Data_clean.dta", clear
 
 *******************************************************************************
 * 1. Data Cleaning
