@@ -3,8 +3,13 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
+# Load Temp and Figures directory paths defined in paths.py
+from paths import TEMP_DIR, FIG_DIR
+
 # Read data from the Excel file
-file_path = '/Users/Admin/OneDrive - George Mason University - O365 Production/Documents/GMU/Dr Kugler/Skills/Reproducibility Package/Temp/Pooled_Estimates_RE_Big5.xlsx'
+#file_path = '/Users/Admin/OneDrive - George Mason University - O365 Production/Documents/GMU/Dr Kugler/Skills/Reproducibility Package/Temp/Pooled_Estimates_RE_Big5.xlsx'
+file_path = TEMP_DIR / "Pooled_Estimates_RE_Big5.xlsx"
+
 # Specify the sheet name
 sheet1 = 'Sheet1'
 
@@ -76,6 +81,7 @@ for group in unique_groups:
 
 # Adjust layout and save the plot
 plt.subplots_adjust(left=0.45, right=0.9, top=0.95, bottom=0.1)
-output_file = '/Users/Admin/OneDrive - George Mason University - O365 Production/Documents/GMU/Dr Kugler/Skills/Reproducibility Package/Figures/FigureA9.WageReturnsREBig5.png'
+#output_file = '/Users/Admin/OneDrive - George Mason University - O365 Production/Documents/GMU/Dr Kugler/Skills/Reproducibility Package/Figures/FigureA9.WageReturnsREBig5.png'
+output_file = FIG_DIR / "FigureA9.WageReturnsREBig5.png" 
 plt.savefig(output_file, dpi=300, bbox_inches='tight')  # Change dpi (dots per inch) for the resolution of the image
 plt.close(fig)  # Clear the figure from memory
