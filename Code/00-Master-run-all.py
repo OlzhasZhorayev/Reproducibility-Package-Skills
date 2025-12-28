@@ -13,8 +13,10 @@ stata_exe = env.get("STATA_EXE")
 if not stata_exe:
     raise RuntimeError(
         "STATA_EXE is not set.\n"
-        "Set it to your Stata executable path, e.g.\n"
+        "Please set it to the full path of your local Stata.exe.\n"
+        "Example (Windows):\n"
         r'STATA_EXE="C:\Program Files\Stata18\StataMP-64.exe"'
+        "The exact path and Stata version may differ across systems."
     )
 
 def run_stata(do_file: str):
@@ -29,7 +31,7 @@ def run_py(py_file: str):
 
 if __name__ == "__main__":
     
-    run_stata("00_Setup.do")
+    run_stata("Setup.do")
 
     # --- DATA PREPARATION (Stata) ---
     run_stata("1.Pool-Estimates-RE-All.do")
@@ -49,4 +51,4 @@ if __name__ == "__main__":
     run_stata("9.Funnel-Plot.do")
     run_stata("13.Funnel-Plot-Training.do")
 
-    print("\n✅ All done.")
+    print("\n✅ All done!")
