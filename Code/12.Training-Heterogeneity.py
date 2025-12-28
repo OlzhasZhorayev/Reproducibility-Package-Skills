@@ -3,11 +3,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-# Load Temp and Figures directory paths defined in paths.py
-from paths import TEMP_DIR, FIG_DIR
+# Load Temp and Figures directory paths defined in Paths.py
+from Paths import TEMP_DIR, FIG_DIR
 
 # Read data from the Excel file
-#file_path = '/Users/Admin/OneDrive - George Mason University - O365 Production/Documents/GMU/Dr Kugler/Skills/Reproducibility Package/Temp/Pooled_Estimates_Training.xlsx'
 file_path = TEMP_DIR / "Pooled_Estimates_Training.xlsx"
 
 # Specify the sheet name
