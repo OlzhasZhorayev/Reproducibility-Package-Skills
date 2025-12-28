@@ -3,8 +3,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-# Load Temp and Figures directory paths defined in paths.py
-from paths import TEMP_DIR, FIG_DIR
+# Load Temp and Figures directory paths defined in Paths.py
+from Paths import TEMP_DIR, FIG_DIR
 
 # Read data
 file_path = TEMP_DIR / "Pooled_Estimates_RE_All.xlsx"
