@@ -186,7 +186,7 @@ all Big Five personality traits).
 
 ### Python Figure Scripts
 
-- **`7.Wage-Returns-RE.py`**, **`8.Heterogeneity.py`**, **`11.Training-Impact.py`**, **`12.Training-Heterogeneity.py`**, **`15.Wage-Returns-RE-Main.py`**, **`17.Wage-Returns-RE-Big5.py`**,scripts produce figures.
+- **`7.Wage-Returns-RE.py`**, **`8.Heterogeneity.py`**, **`11.Training-Impact.py`**, **`12.Training-Heterogeneity.py`**, **`15.Wage-Returns-RE-Main.py`**, **`17.Wage-Returns-RE-Big5.py`** scripts produce figures.
 
 ---
 
