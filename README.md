@@ -157,7 +157,7 @@ pip install pandas numpy matplotlib openpyxl
 
 ### Stata Setup
 
-- 00_Setup.do
+- Setup.do
    Defines project directories and ensures all Stata scripts run reproducibly when called from Python.
 
 ### Stata Analysis Files
