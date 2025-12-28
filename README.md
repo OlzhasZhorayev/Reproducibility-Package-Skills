@@ -181,13 +181,14 @@ Reproducibility-Package-Skills/
 │  ├─ *.do
 │  └─ *.py
 ├─ Data/
-│  └─ (embargoed data files)
+│  ├─ Data_clean.dta
+│  └─ Training_data_clean.xlsx
 ├─ Temp/
 │  └─ intermediate Excel outputs
 ├─ Figures/
 │  └─ generated figures
 ├─ Tables/
-│  └─ (if applicable)
+│  └─ 
 ├─ README.md
 └─ .gitignore
 
