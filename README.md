@@ -7,7 +7,7 @@
 ## 1. Overview
 
 This reproducibility package contains the data processing, analysis, and visualization code used in the paper:
-**Evidence Synthesis on Socio-Emotional Skill Returns and Training Impacts**
+**"Evidence Synthesis on Socio-Emotional Skill Returns and Training Impacts"**
 
 ### Collaborators
 - **Diego Angel-Urdinola**¹  
