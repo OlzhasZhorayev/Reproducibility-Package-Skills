@@ -193,44 +193,34 @@ all Big Five personality traits).
 ## 7. Folder Structure
 
 ```text
-Reproducibility-Package-Skills/
-│
-├─ Code/
-│  ├─ 00-Master-run-all.py
-│  ├─ Paths.py
-│  ├─ Setup.do
-│  ├─ 1.Pool-Estimates-RE-All.do
-│  ├─ 2.Pool-Estimates-Training.do
-│  ├─ 3.Pool-Estimates-RE-Main.do
-│  ├─ 4.Pool-Estimates-FE-All.do
-│  ├─ 5.Pool-Estimates-RE-Big5.do
-│  ├─ 6.Descriptive-Statistics.do
-│  ├─ 7.Wage-Returns-RE.py
-│  ├─ 8.Heterogeneity.py
-│  ├─ 9.Funnel-Plot.do
-│  ├─ 11.Training-Impact.py
-│  ├─ 12.Training-Heterogeneity.py
-│  ├─ 13.Funnel-Plot-Training.do
-│  ├─ 15.Wage-Returns-RE-Main.py
-│  └─ 17.Wage-Returns-RE-Big5.py
-│
-├─ Data/
-│  ├─ Data_clean.dta
-│  └─ Training_data_clean.xlsx
-│
-├─ Temp/
-│  └─ Intermediate Excel outputs
-│
-├─ Figures/
-│  └─ Generated figures
-│
-├─ Tables/
-│  └─ Generated tables
-│
-├─ README.md
-│
-└─ .gitignore
-
-
+Code/
+  ├─ 00-Master-run-all.py
+  ├─ Paths.py
+  ├─ Setup.do
+  ├─ 1.Pool-Estimates-RE-All.do
+  ├─ 2.Pool-Estimates-Training.do
+  ├─ 3.Pool-Estimates-RE-Main.do
+  ├─ 4.Pool-Estimates-FE-All.do
+  ├─ 5.Pool-Estimates-RE-Big5.do
+  ├─ 6.Descriptive-Statistics.do
+  ├─ 7.Wage-Returns-RE.py
+  ├─ 8.Heterogeneity.py
+  ├─ 9.Funnel-Plot.do
+  ├─ 11.Training-Impact.py
+  ├─ 12.Training-Heterogeneity.py
+  ├─ 13.Funnel-Plot-Training.do
+  ├─ 15.Wage-Returns-RE-Main.py
+  └─ 17.Wage-Returns-RE-Big5.py
+Data/
+  ├─ Data_clean.dta
+  └─ Training_data_clean.xlsx
+Temp/
+  └─ Intermediate Excel outputs
+Figures/
+  └─ Generated figures
+Tables/
+  └─ Generated tables
+README.md
+.gitignore
 
 
