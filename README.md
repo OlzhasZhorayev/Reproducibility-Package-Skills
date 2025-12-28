@@ -149,7 +149,7 @@ pip install pandas numpy matplotlib openpyxl
 
 ### Master Script
 
-- run_all.py
+- 00-Master-run-all.py
    Python master script that:
    - sets project paths,
    - calls Stata do-files in batch mode, and
@@ -190,20 +190,3 @@ Reproducibility-Package-Skills/
 ├─ README.md
 └─ .gitignore
 
-Reproducibility-Package-Skills/
-├── Code/
-│   ├── run_all.py
-│   ├── paths.py
-│   ├── 00_Setup.do
-│   ├── *.do
-│   └── *.py
-├── Data/
-│   └── (embargoed data files)
-├── Temp/
-│   └── intermediate Excel outputs
-├── Figures/
-│   └── generated figures
-├── Tables/
-│   └── (if applicable)
-├── README.md
-└── .gitignore
