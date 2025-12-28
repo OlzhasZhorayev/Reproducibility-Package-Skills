@@ -88,3 +88,22 @@ $env:STATA_EXE="C:\Program Files\Stata18\StataMP-64.exe"
 | Figure 4         | `Figure4.TrainingImpact.png`        | `11.Training-Impact.py`        | Overall training impacts              |
 | Figure 5         | `Figure5.TrainingHeterogeneity.png` | `12.Training-Heterogeneity.py` | Heterogeneity in training impacts     |
 | Appendix Figures | Various                             | `15`, `17` scripts             | Supplementary results                 |
+
+
+Reproducibility-Package-Skills/
+├── Code/
+│   ├── run_all.py
+│   ├── paths.py
+│   ├── 00_Setup.do
+│   ├── *.do
+│   └── *.py
+├── Data/
+│   └── (embargoed data files)
+├── Temp/
+│   └── intermediate Excel outputs
+├── Figures/
+│   └── generated figures
+├── Tables/
+│   └── (if applicable)
+├── README.md
+└── .gitignore
