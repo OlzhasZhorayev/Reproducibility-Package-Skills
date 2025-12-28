@@ -189,3 +189,21 @@ Reproducibility-Package-Skills/
 │  └─ (if applicable)
 ├─ README.md
 └─ .gitignore
+
+Reproducibility-Package-Skills/
+├── Code/
+│   ├── run_all.py
+│   ├── paths.py
+│   ├── 00_Setup.do
+│   ├── *.do
+│   └── *.py
+├── Data/
+│   └── (embargoed data files)
+├── Temp/
+│   └── intermediate Excel outputs
+├── Figures/
+│   └── generated figures
+├── Tables/
+│   └── (if applicable)
+├── README.md
+└── .gitignore
