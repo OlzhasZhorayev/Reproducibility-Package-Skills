@@ -1,6 +1,6 @@
 
 # Reproducibility Package  
-**Evidence Synthesis on Socio-Emotional Skill Returns and Training Impacts**
+## Evidence Synthesis on Socio-Emotional Skill Returns and Training Impacts
 
 ---
 
