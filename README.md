@@ -92,9 +92,9 @@ $env:STATA_EXE="C:\Program Files\Stata18\StataMP-64.exe"
 
 Reproducibility-Package-Skills/
 ├── Code/
-│   ├── run_all.py
-│   ├── paths.py
-│   ├── 00_Setup.do
+│   ├── 00-Master-run-all.py
+│   ├── Paths.py
+│   ├── Setup.do
 │   ├── *.do
 │   └── *.py
 ├── Data/
