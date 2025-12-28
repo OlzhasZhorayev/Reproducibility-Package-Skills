@@ -149,7 +149,7 @@ pip install pandas numpy matplotlib openpyxl
 
 ### Master Script
 
-- 00-Master-run-all.py
+- **`00-Master-run-all.py`**
    Python master script that:
    - sets project paths,
    - calls Stata do-files in batch mode, and
@@ -157,16 +157,16 @@ pip install pandas numpy matplotlib openpyxl
 
 ### Stata Setup
 
-- Setup.do
+- **`Setup.do`**
    Defines project directories and ensures all Stata scripts run reproducibly when called from Python.
 
 ### Stata Analysis Files
 
-- Data preparation and meta-analysis do-files (1.*.do, 2.*.do, etc.)
+- Data preparation and meta-analysis do-files (**`1.*.do`**, **`2.*.do`**, etc.)
 
 ### Python Figure Scripts
 
-- Scripts numbered 7.*.py, 8.*.py, 11.*.py, etc., each producing a specific figure.
+- Scripts numbered **`7.*.py`**, **`8.*.py`**, **`11.*.py`**, etc., each producing a specific figure.
 
 ---
 
