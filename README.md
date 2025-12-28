@@ -172,6 +172,7 @@ pip install pandas numpy matplotlib openpyxl
 
 ## 7. Folder Structure
 
+```text
 Reproducibility-Package-Skills/
 ├─ Code/
 │  ├─ 00-Master-run-all.py
@@ -189,4 +190,7 @@ Reproducibility-Package-Skills/
 │  └─ (if applicable)
 ├─ README.md
 └─ .gitignore
+
+
+
 
