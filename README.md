@@ -135,7 +135,10 @@ This will:
 
 ### Software Requirements
 
-- **Stata 18** (required for meta commands and data format compatibility)
+- **Stata 18** (tested)
+  - Required for meta commands and data format compatibility
+  - Earlier versions (Stata 16-17) may work but are not guaranteed due to differences in the meta command behavior
+  
 - **Python ≥ 3.9**
 
 **Python Packages**
