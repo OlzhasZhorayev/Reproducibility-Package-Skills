@@ -194,6 +194,7 @@ all Big Five personality traits).
 
 ```text
 Reproducibility-Package-Skills/
+│
 ├─ Code/
 │  ├─ 00-Master-run-all.py
 │  ├─ Paths.py
@@ -212,16 +213,22 @@ Reproducibility-Package-Skills/
 │  ├─ 13.Funnel-Plot-Training.do
 │  ├─ 15.Wage-Returns-RE-Main.py
 │  └─ 17.Wage-Returns-RE-Big5.py
+│
 ├─ Data/
 │  ├─ Data_clean.dta
 │  └─ Training_data_clean.xlsx
+│
 ├─ Temp/
 │  └─ Intermediate Excel outputs
+│
 ├─ Figures/
 │  └─ Generated figures
+│
 ├─ Tables/
 │  └─ Generated tables
+│
 ├─ README.md
+│
 └─ .gitignore
 
 
