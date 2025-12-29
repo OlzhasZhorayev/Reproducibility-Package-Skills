@@ -212,7 +212,7 @@ Code/
   ├─ 3.Pool-Estimates-RE-Main.do
   ├─ 4.Pool-Estimates-FE-All.do
   ├─ 5.Pool-Estimates-RE-Big5.do
-  ├─ 6.Descriptive-Statistics.do
+  ├─ 6.Descriptive-Stat-Income.do
   ├─ 7.Wage-Returns-RE.py
   ├─ 8.Heterogeneity.py
   ├─ 9.Funnel-Plot.do
