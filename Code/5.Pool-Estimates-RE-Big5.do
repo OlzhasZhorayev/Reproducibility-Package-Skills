@@ -12,7 +12,32 @@ drop if training == "yes"
 
 * Remove if estimates are based on robustness checks,
 * keeping only the authors' preferred specification
-*drop if missing(preferred)
+drop if missing(preferred)
+
+* Papers controlling for all Big Five personality traits
+
+	** Tag if the variable is "Openness"
+	gen openness_tag = 1 if vble2 == "Openness"
+	bysort paper_id (variable): egen has_openness = max(openness_tag)
+
+	** Tag if the variable is "Conscientiousness"
+	gen conscientiousness_tag = 1 if vble2 == "Conscientiousness"
+	bysort paper_id (variable): egen has_conscientiousness = max(conscientiousness_tag)
+
+	** Tag if the variable is "Agreeableness"
+	gen agreeableness_tag = 1 if vble2 == "Disagreeableness"
+	bysort paper_id (variable): egen has_agreeableness = max(agreeableness_tag)
+
+	** Tag if the variable is "Extraversion"
+	gen extraversion_tag = 1 if vble2 == "Extraversion"
+	bysort paper_id (variable): egen has_extraversion = max(extraversion_tag)
+
+	** Tag if the variable is "Neuroticism"
+	gen neuroticism_tag = 1 if vble2 == "Emotional Stability"
+	bysort paper_id (variable): egen has_neuroticism = max(neuroticism_tag)
+
+	** Create the "complete" variable
+	gen complete = (has_openness == 1 & has_conscientiousness == 1 & has_agreeableness == 1 & has_extraversion == 1 & has_neuroticism == 1)
 
 * Drop if estimates are expressed as standard deviation
 keep if ind_var_measure == "Standard deviation"
@@ -21,9 +46,8 @@ replace methodology = "IV" if methodology == "2,3" | methodology == "2"
 replace methodology = "OLS" if methodology == "3"
 
 replace vble2 =  "" if strpos(vble2, "tenure") > 0
-*keep if inlist(type, "Big Five", "Cognitive")
-*replace type = "Cognitive Skills" if type == "Cognitive"
-keep if type == "Big Five"
+keep if inlist(type, "Big Five", "Cognitive")
+replace type = "Cognitive Skills" if type == "Cognitive"
 
 replace region = "Latin America" if region == "Latin America and the Caribbean"
 replace region = "North America" if region == "Northern America"
@@ -49,33 +73,13 @@ label values gender gender_lbl
 drop if studylbl == "Chowdhury (2017)"
 
 *******************************************************************************
-* 2. Descriptive Statistics
-*******************************************************************************
-
-* By region
-tab type region
-tab type region, cell
-tab type region, row
-
-tab type region, col
-tab educ_control region, col
-tab gender region, col
-tab methodology region, col
-
-* By income group
-tab type inc_class, col
-tab educ_control inc_class, col
-tab gender inc_class, col
-tab methodology inc_class, col
-
-*******************************************************************************
-* 3. Set Meta Variables
+* 2. Set Meta Variables
 *******************************************************************************
 
 meta set effectsize2 std_error2, studylabel(studylbl) 
 
 *******************************************************************************
-* 4. Heterogeneity 
+* 3. Heterogeneity 
 *******************************************************************************
 
 * Define grouping variables
@@ -92,7 +96,7 @@ gen group5 = sample_popn if inlist(sample_popn, "Male", "Female")
 gen group6 = methodology if inlist(type, "Big Five")
 
 *******************************************************************************
-* 5. Run Meta-Analysis (RE) and Export Group Results
+* 4. Run Meta-Analysis (RE) and Export Group Results
 *******************************************************************************
 
 * Create Excel sheet and set up headers
