@@ -1,5 +1,5 @@
 
-* Load data
+* Load Data
 do "Setup.do"
 use "${data}/Data_clean.dta", clear
 
@@ -24,7 +24,6 @@ replace region = "Latin America" if region == "Latin America and the Caribbean"
 replace region = "North America" if region == "Northern America"
 
 * Additional cleaning
-
 replace inc_class = "Developing Countries" ///
 	if inc_class == "Lower Middle Income" | inc_class == "Upper Middle Income"
 
@@ -44,41 +43,17 @@ label values gender gender_lbl
 drop if studylbl == "Chowdhury (2017)"
 
 *******************************************************************************
-* 2. Descriptive Statistics
+* 2. Set Meta Variables
 *******************************************************************************
 
-* By region
-tab type region
-tab type region, cell
-tab type region, row
-
-tab type region, col
-tab educ_control region, col
-tab gender region, col
-tab methodology region, col
-
-* By income group
-tab type inc_class, col
-tab educ_control inc_class, col
-tab gender inc_class, col
-tab methodology inc_class, col
+meta set effectsize2 std_error2, studylabel(studylbl)
 
 *******************************************************************************
-* 3. Set Meta Variables
+* 3. Heterogeneity / Grouping Variables
 *******************************************************************************
-
-meta set effectsize2 std_error2, studylabel(studylbl) 
-
-*******************************************************************************
-* 4. Heterogeneity 
-*******************************************************************************
-
-* Define grouping variables
-local groups "group1 group2 group3 group4 group5 group6"
 
 replace methodology = "2" if methodology == "2,3"
 
-* Create grouping variables
 gen group1 = type
 gen group2 = vble2 if type == "Big Five"
 gen group3 = educ_control if inlist(type, "Big Five")
@@ -87,18 +62,17 @@ gen group5 = sample_popn if inlist(sample_popn, "Male", "Female")
 gen group6 = methodology if inlist(type, "Big Five")
 
 *******************************************************************************
-* 5. Run Meta-Analysis (FE) and Export Group Results
+* 4. Run Meta-Analysis (Fixed Effects) and Export Group Results
 *******************************************************************************
 
-* Create Excel sheets and set up headers for both sheets
-
-* Create Excel sheet and set up headers
 putexcel set "${temp}/Pooled_Estimates_FE_All.xlsx", replace sheet("Sheet1")
-putexcel A1 = "Group" B1 = "Subgroup" C1 = "Theta" ///
-         D1 = "SE" E1 = "p-value" F1 = "N"
-local row = 2
+putexcel A1 = "Group" B1 = "Subgroup" C1 = "Theta" D1 = "SE" E1 = "p-value" F1 = "N"
+local row1 = 2
 
-* Apply value labels to grouping variables 
+putexcel set "${temp}/Pooled_Estimates_FE_All.xlsx", modify sheet("Sheet2")
+putexcel A1 = "Group" B1 = "Subgroup" C1 = "Theta" D1 = "SE" E1 = "p-value" F1 = "N"
+local row2 = 2
+
 label var group1 "Skill type"
 label var group2 "Big Five"
 label var group3 "Education"
@@ -106,40 +80,76 @@ label var group4 "Income level"
 label var group5 "Gender"
 label var group6 "Methodology"
 
-* Loop over each group
 local groups "group1 group2 group3 group4 group5 group6"
+
+tempvar w wy
+gen double `w'  = 1/(std_error2^2)
+gen double `wy' = `w' * effectsize2
+
 foreach group of local groups {
 
-    * Get the label of the group
     local group_label : variable label `group'
+    quietly levelsof `group', local(subgroups)
 
-    * Get the distinct values for the current group
-    levelsof `group', local(subgroups)
-
-    * Loop through each subgroup within the current group
     foreach subgroup of local subgroups {
 
-        * Run the meta-analysis for the current subgroup
-        quietly meta summarize if `group' == "`subgroup'", fixed
-        if _rc != 0 continue  // Skip problematic subgroups 
+        * Detect whether `group' is string or numeric
+        local vtype : type `group'
 
-        * Store the results for the current subgroup
-        local theta = r(theta)
-        local se = r(se)
+        * Build condition for subgroup (string vs numeric)
+        if substr("`vtype'",1,3) == "str" {
+            local cond `"`group' == "`subgroup'""'
+        }
+        else {
+            local cond `"`group' == `subgroup'"'
+        }
+
+        * Subgroup label for export (use value label if numeric-labeled)
+        local subgroup_out "`subgroup'"
+        if substr("`vtype'",1,3) != "str" {
+            local vallbl : value label `group'
+            if "`vallbl'" != "" local subgroup_out : label `vallbl' `subgroup'
+        }
+
+        * N in subgroup
+        quietly count if `cond'
         local N = r(N)
-        local z = `theta' / `se'
-        local pval = 2 * (1 - normal(abs(`z')))
+        if `N' == 0 continue
 
-        * Export all results to Sheet1
-        putexcel set "${temp}/Pooled_Estimates_FE_All.xlsx", ///
-            modify sheet("Sheet1")
-        putexcel A`row' = "`group_label'" B`row' = "`subgroup'" ///
-            C`row' = `theta' D`row' = `se' E`row' = `pval' F`row' = `N'
-        local row = `row' + 1
+        * Fixed-effect inverse-variance pooled estimate
+        quietly summarize `w' if `cond', meanonly
+        local sw = r(sum)
+
+        quietly summarize `wy' if `cond', meanonly
+        local swy = r(sum)
+
+        if `sw' == 0 continue
+
+        local theta = `swy' / `sw'
+        local se    = sqrt(1/`sw')
+        local z     = `theta' / `se'
+        local pval  = 2 * (1 - normal(abs(`z')))
+
+        if "`group'" == "group1" {
+            putexcel set "${temp}/Pooled_Estimates_FE_All.xlsx", ///
+				modify sheet("Sheet1")
+            putexcel A`row1' = "`group_label'" B`row1' = "`subgroup_out'" ///
+                C`row1' = `theta' D`row1' = `se' E`row1' = `pval' F`row1' = `N'
+            local row1 = `row1' + 1
+        }
+        else {
+            putexcel set "${temp}/Pooled_Estimates_FE_All.xlsx", ///
+			modify sheet("Sheet2")
+            putexcel A`row2' = "`group_label'" B`row2' = "`subgroup_out'" ///
+                C`row2' = `theta' D`row2' = `se' E`row2' = `pval' F`row2' = `N'
+            local row2 = `row2' + 1
+        }
     }
 }
 
 * End of do-file **************************************************************	
+
+
 
 
 
