@@ -58,11 +58,12 @@ This package relies on two cleaned data files:
 World Bank. The data were collected by the project team. For detailed information on data collection please refer to the **Database Construction** section and **Appendix A** of the paper.
 
 **Statement about Rights**
+
 •	☑ I certify that the author(s) of the manuscript have legitimate access to and permission to use the data used in this manuscript.
 •	☐ I certify that the author(s) of the manuscript have documented permission to redistribute/publish the data contained within this replication package. Appropriate permission are documented in the LICENSE.txt file.
 
 **Data Access Note**  
-All data used in this project are **temporarily embargoed by the authors**. The data are **included in a private GitHub repository for authorized replicators**. Public release is expected in the future.
+All data used in this project are available upon request to the authors. The data are **included in a private GitHub repository for authorized replicators**. 
 
 ---
 
