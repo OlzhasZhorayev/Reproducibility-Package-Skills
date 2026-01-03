@@ -31,7 +31,8 @@ replace region = "North America" if region == "Northern America"
 
 replace inc_class = "Developing Countries" ///
 	if inc_class == "Lower Middle Income" | inc_class == "Upper Middle Income"
-
+replace inc_class = "High Income Countries" if inc_class == "High Income"
+	
 replace educ_control = "Controlled" if educ_control == "Yes"
 replace educ_control = "Not Controlled" if educ_control == "No"
 
@@ -48,33 +49,13 @@ label values gender gender_lbl
 drop if studylbl == "Chowdhury (2017)"
 
 *******************************************************************************
-* 2. Descriptive Statistics
-*******************************************************************************
-
-* By region
-tab type region
-tab type region, cell
-tab type region, row
-
-tab type region, col
-tab educ_control region, col
-tab gender region, col
-tab methodology region, col
-
-* By income group
-tab type inc_class, col
-tab educ_control inc_class, col
-tab gender inc_class, col
-tab methodology inc_class, col
-
-*******************************************************************************
-* 3. Set Meta Variables 
+* 2. Set Meta Variables 
 *******************************************************************************
 
 meta set effectsize2 std_error2, studylabel(studylbl) 
 
 *******************************************************************************
-* 4. Heterogeneity 
+* 3. Heterogeneity 
 *******************************************************************************
 
 * Define grouping variables
@@ -91,7 +72,7 @@ gen group5 = sample_popn if inlist(sample_popn, "Male", "Female")
 gen group6 = methodology if inlist(type, "Big Five")
 
 *******************************************************************************
-* 5. Run Meta-Analysis (Random Effects) and Export Group Results
+* 4. Run Meta-Analysis (Random Effects) and Export Group Results
 *******************************************************************************
 
 * Create Excel sheet and set up headers
