@@ -56,7 +56,8 @@ replace region = "North America" if region == "Northern America"
 
 replace inc_class = "Developing Countries" ///
 	if inc_class == "Lower Middle Income" | inc_class == "Upper Middle Income"
-
+replace inc_class = "High Income Countries" if inc_class == "High Income"
+	
 replace educ_control = "Controlled" if educ_control == "Yes"
 replace educ_control = "Not Controlled" if educ_control == "No"
 
