@@ -27,7 +27,8 @@ replace region = "North America" if region == "Northern America"
 
 replace inc_class = "Developing Countries" ///
 	if inc_class == "Lower Middle Income" | inc_class == "Upper Middle Income"
-
+replace inc_class = "High Income Countries" if inc_class == "High Income"
+	
 replace educ_control = "Controlled" if educ_control == "Yes"
 replace educ_control = "Not Controlled" if educ_control == "No"
 
@@ -44,33 +45,13 @@ label values gender gender_lbl
 drop if studylbl == "Chowdhury (2017)"
 
 *******************************************************************************
-* 2. Descriptive Statistics
-*******************************************************************************
-
-* By region
-tab type region
-tab type region, cell
-tab type region, row
-
-tab type region, col
-tab educ_control region, col
-tab gender region, col
-tab methodology region, col
-
-* By income group
-tab type inc_class, col
-tab educ_control inc_class, col
-tab gender inc_class, col
-tab methodology inc_class, col
-
-*******************************************************************************
-* 3. Set Meta Variables (Random Effects)
+* 2. Set Meta Variables (Random Effects)
 *******************************************************************************
 
 meta set effectsize2 std_error2, studylabel(studylbl) 
 
 *******************************************************************************
-* 4. Heterogeneity 
+* 3. Heterogeneity 
 *******************************************************************************
 
 * Define grouping variables
@@ -79,15 +60,14 @@ local groups "group1 group2 group3 group4 group5 group6"
 replace methodology = "2" if methodology == "2,3"
 
 * Create grouping variables
-gen group1 = type
-gen group2 = vble2 if type == "Big Five"
-gen group3 = educ_control if inlist(type, "Big Five")
-gen group4 = inc_class if inlist(type, "Big Five")
-gen group5 = sample_popn if inlist(sample_popn, "Male", "Female")
-gen group6 = methodology if inlist(type, "Big Five")
+gen group1 = vble2 if type == "Big Five"
+gen group2 = educ_control if inlist(type, "Big Five")
+gen group3 = inc_class if inlist(type, "Big Five")
+gen group4 = sample_popn if inlist(sample_popn, "Male", "Female")
+gen group5 = methodology if inlist(type, "Big Five")
 
 *******************************************************************************
-* 5. Run Meta-Analysis (Random Effects) and Export Group Results
+* 4. Run Meta-Analysis (Random Effects) and Export Group Results
 *******************************************************************************
 
 * Create Excel sheets and set up headers for both sheets
@@ -103,12 +83,11 @@ putexcel A1 = "Group" B1 = "Subgroup" C1 = "Theta" ///
 local row2 = 2
 
 * Apply value labels to grouping variables 
-label var group1 "Skill type"
-label var group2 "Big Five"
-label var group3 "Education"
-label var group4 "Income level"
-label var group5 "Gender"
-label var group6 "Methodology"
+label var group1 "Big Five"
+label var group2 "Education"
+label var group3 "Income level"
+label var group4 "Gender"
+label var group5 "Methodology"
 
 * Loop over each group
 local groups "group1 group2 group3 group4 group5 group6"
