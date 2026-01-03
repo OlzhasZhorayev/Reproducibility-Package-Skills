@@ -6,96 +6,78 @@ import pandas as pd
 # Load Temp and Figures directory paths defined in Paths.py
 from Paths import TEMP_DIR, FIG_DIR
 
-# Read data
+# Read data from the Excel file
 file_path = TEMP_DIR / "Pooled_Estimates_RE_All.xlsx"
+# Specify the sheet name
+sheet1 = 'Sheet1'
 
-df = pd.read_excel(file_path)
+# Read the specific sheet
+df = pd.read_excel(file_path, sheet_name=sheet1)   # Remaining results (Heteregeneity effects) 
 
-# Compute confidence intervals if needed
+# Modify the 'Subgroup' column to include N values
+df['Subgroup'] = df.apply(lambda row: f"{row['Subgroup']} (N = {int(row['N'])})", axis=1)
+
+# Calculate the confidence intervals
 df['CI_lower'] = df['Theta'] - 1.96 * df['SE']
 df['CI_upper'] = df['Theta'] + 1.96 * df['SE']
 
-# Extract Cognitive row
-df_cog = df.loc[df['Subgroup'].str.contains('Cognitive', case=False)].iloc[0]
-theta_cog = df_cog['Theta']
-ci_lower_cog = df_cog['CI_lower']
-ci_upper_cog = df_cog['CI_upper']
+# Adjust the space between y-axis ticks for better compactness
+df['y_pos'] = np.arange(len(df)) * 1.5  # Adjust the spacing based on row count
 
-# Extract Big Five row
-df_big5 = df.loc[df['Subgroup'].str.contains('Big Five', case=False)].iloc[0]
-theta_big5 = df_big5['Theta']
-ci_lower_big5 = df_big5['CI_lower']
-ci_upper_big5 = df_big5['CI_upper']
+# Assign colors to each group
+cmap = plt.get_cmap('tab10')
+unique_groups = df['Group'].unique()
+color_map = {group: cmap(i) for i, group in enumerate(unique_groups)}
+df['color'] = df['Group'].map(color_map)
 
-# Build effect sizes / errors with Big Five on top
-effect_sizes = [theta_big5, theta_cog]
-errors = [
-    [theta_big5 - ci_lower_big5, theta_cog - ci_lower_cog],
-    [ci_upper_big5 - theta_big5, ci_upper_cog - theta_cog]
-]
+# Adjust figure height based on the number of rows
+fig_height = len(df) * 0.7  # Calculate height (0.7 or 1.1 height per row)
 
-# Get the N values from the Excel column named 'N'
-n_big5 = int(df_big5['N'])
-n_cog = int(df_cog['N'])
+# Plot
+fig, ax = plt.subplots(figsize=(20, fig_height))  # Adjust figure height
 
-# Label strings for Y-axis
-labels = [
-    f"Big Five (N = {n_big5})",
-    f"Cognitive Skills (N = {n_cog})"
-]
+# Set the font to Arial, fallback to default if not found
+plt.rcParams["font.family"] = "Arial"
 
-# Assign y-positions so Big Five is higher
-y_positions = [0.10, 0.05]
+# Error bars for each subgroup
+for i, row in df.iterrows():
+    ax.errorbar(row['Theta'], row['y_pos'], xerr=[[row['Theta'] - row['CI_lower']], [row['CI_upper'] - row['Theta']]], 
+                fmt='s', capsize=4, markersize=6, color=row['color'])  # 's' makes the marker a square
+    # Add the effect size (Theta) as a text annotation **above** each error bar
+    ax.text(row['Theta'], row['y_pos'] - 0.4, f"{row['Theta']:.3f}",  # Adjust to 0.4 or more
+            ha='center', va='center', fontsize=14, color='black') 
 
-fig, ax = plt.subplots(figsize=(10, 2.5)) # width and height
+# Add a vertical line at zero
+ax.axvline(x=0, color='black', linestyle='--', linewidth=1)
 
-# Plot error bars with squares and horizontal “edges”
-ax.errorbar(
-    effect_sizes,
-    y_positions,
-    xerr=errors,
-    fmt='s',                 # square markers
-    color='steelblue',
-    capsize=4,               # length of error bar endcaps
-    elinewidth=2,            # thickness of the horizontal lines
-    markersize=5             # smaller squares
-)
+# Customize axis ticks and labels
+ax.set_yticks(df['y_pos'])
+ax.set_yticklabels(df['Subgroup'], fontsize=14)
+ax.invert_yaxis()
+ax.set_xlabel('Effect size', fontsize=16, fontweight='bold')
+ax.tick_params(axis='x', labelsize=14)
 
-# Add numerical labels above each square
-for x_val, y_val in zip(effect_sizes, y_positions):
-    ax.text(
-        x_val,
-        y_val + 0.01,
-        f"{x_val:.3f}",
-        ha='center',
-        va='bottom',
-        fontsize=10,
-        color='black'
-    )
-
-# Use the labels with (N = …) on the Y-axis
-ax.set_yticks(y_positions)
-ax.set_yticklabels(labels)
-
-# Make the x-axis title bold
-ax.set_xlabel("Effect size", fontweight='bold')
-
-# Remove unneeded spines
+# Remove the top and right spines (the "box" effect)
 ax.spines['top'].set_visible(False)
 ax.spines['right'].set_visible(False)
-ax.grid(False)
 
-# Constrain vertical and horizontal limits
-ax.set_ylim(0, 0.15)
-ax.set_xlim(left=0)
+# Add vertical group labels to the side of the plot and move group labels to the left
+for group in df['Group'].unique():
+    group_data = df[df['Group'] == group]
+    mid_pos = (group_data['y_pos'].min() + group_data['y_pos'].max()) / 2  # Calculate a middle position for the group
+    ax.text(-0.07, mid_pos, group, verticalalignment='center', horizontalalignment='center', 
+            color='black', fontsize=16, rotation=0, fontweight='bold')  
+            # Adjust the label position to the left: -0.06 for sheet1
 
-plt.tight_layout()
-plt.subplots_adjust(left=0.25, bottom=0.15, top=0.9, right=0.95)
+# Add horizontal grey dashed lines between groups
+for group in unique_groups:
+    group_data = df[df['Group'] == group]
+    lower_bound = group_data['y_pos'].min() - 0.9  # Slightly below the group
+    ax.hlines(y=lower_bound, xmin=-0.02, xmax=0.06, color='gray', linestyle='--', linewidth=0.5) 
+    # Adjust xmax = 0.06 for Sheet1
 
-# Save the plot
+# Adjust layout and save the plot
+plt.subplots_adjust(left=0.45, right=0.9, top=0.95, bottom=0.1)
 output_file = FIG_DIR / "Figure1.WageReturns.png" 
 plt.savefig(output_file, dpi=300, bbox_inches='tight')  # Change dpi (dots per inch) for the resolution of the image
-
-# Show the plot
-plt.show() # Only after plt.savefig() to save properly
 plt.close(fig)  # Clear the figure from memory
