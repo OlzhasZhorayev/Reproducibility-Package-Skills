@@ -1,6 +1,6 @@
 
 # Reproducibility Package  
-## Project: Socio-Emotional Skill 
+## Project: Socio-Emotional Skills 
 
 ---
 
