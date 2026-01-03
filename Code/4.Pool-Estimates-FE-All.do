@@ -24,9 +24,11 @@ replace region = "Latin America" if region == "Latin America and the Caribbean"
 replace region = "North America" if region == "Northern America"
 
 * Additional cleaning
+
 replace inc_class = "Developing Countries" ///
 	if inc_class == "Lower Middle Income" | inc_class == "Upper Middle Income"
-
+replace inc_class = "High Income Countries" if inc_class == "High Income"
+	
 replace educ_control = "Controlled" if educ_control == "Yes"
 replace educ_control = "Not Controlled" if educ_control == "No"
 
@@ -67,11 +69,7 @@ gen group6 = methodology if inlist(type, "Big Five")
 
 putexcel set "${temp}/Pooled_Estimates_FE_All.xlsx", replace sheet("Sheet1")
 putexcel A1 = "Group" B1 = "Subgroup" C1 = "Theta" D1 = "SE" E1 = "p-value" F1 = "N"
-local row1 = 2
-
-putexcel set "${temp}/Pooled_Estimates_FE_All.xlsx", modify sheet("Sheet2")
-putexcel A1 = "Group" B1 = "Subgroup" C1 = "Theta" D1 = "SE" E1 = "p-value" F1 = "N"
-local row2 = 2
+local row = 2
 
 label var group1 "Skill type"
 label var group2 "Big Five"
@@ -130,19 +128,10 @@ foreach group of local groups {
         local z     = `theta' / `se'
         local pval  = 2 * (1 - normal(abs(`z')))
 
-        if "`group'" == "group1" {
-            putexcel set "${temp}/Pooled_Estimates_FE_All.xlsx", ///
-				modify sheet("Sheet1")
-            putexcel A`row1' = "`group_label'" B`row1' = "`subgroup_out'" ///
-                C`row1' = `theta' D`row1' = `se' E`row1' = `pval' F`row1' = `N'
-            local row1 = `row1' + 1
-        }
-        else {
-            putexcel set "${temp}/Pooled_Estimates_FE_All.xlsx", ///
-			modify sheet("Sheet2")
-            putexcel A`row2' = "`group_label'" B`row2' = "`subgroup_out'" ///
-                C`row2' = `theta' D`row2' = `se' E`row2' = `pval' F`row2' = `N'
-            local row2 = `row2' + 1
+        * Write to single sheet
+        putexcel A`row' = "`group_label'" B`row' = "`subgroup_out'" ///
+            C`row' = `theta' D`row' = `se' E`row' = `pval' F`row' = `N'
+        local row = `row' + 1
         }
     }
 }
