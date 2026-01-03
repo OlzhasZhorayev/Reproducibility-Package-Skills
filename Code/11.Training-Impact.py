@@ -87,7 +87,4 @@ plt.subplots_adjust(left=0.25, bottom=0.15, top=0.9, right=0.95)
 # Save the plot
 output_file = FIG_DIR / "Figure4.TrainingImpact.png"
 plt.savefig(output_file, dpi=300, bbox_inches='tight')  # Change dpi (dots per inch) for the resolution of the image
-
-# Show the plot
-plt.show() # Only after plt.savefig() to save properly
 plt.close(fig)  # Clear the figure from memory
