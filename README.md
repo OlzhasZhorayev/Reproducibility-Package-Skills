@@ -32,6 +32,9 @@ using a systematic evidence synthesis and meta-analytic framework.
 
 The package is designed to be run end-to-end using a **Python master script**, which calls Stata in batch mode to process the data and then generates tables using Stata and figures using Python.
 
+### Date of Production
+December 2025
+
 ---
 
 ## 2. Data Availability
