@@ -236,5 +236,7 @@ Figures/
 Tables/
   └─ Generated tables
 README.md
+README brief.txt
+Paper_Dec27_2025.pdf
 
 
