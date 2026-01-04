@@ -93,6 +93,7 @@ python Code/00-Master-run-all.py
 ```
 This will:
 - run all Stata do-files in batch mode;
+- run all Python scripts; 
 - generate intermediate Excel outputs in Temp/; 
 - generate all tables in Tables/;
 - generate all figures in Figures/.
@@ -111,6 +112,9 @@ This will:
 
 | Exhibit     | Output Filename                          | Script                            | Note                         |
 | ----------- | ---------------------------------------- | --------------------------------- | ---------------------------- |
+| Table 3     | `Table3_DescriptiveStats_Income.xlsx`    | `6.Descriptive-Stat-Income.do`    | Found in the Tables Folder   |
+| Table 4     | `Table4_DescriptiveStats_Training.xlsx`  | `10.Descriptive-Stat-Training.do` | Found in the Tables Folder   |
+| Table A3    | `TableA3_DescriptiveStats_Region.xlsx`   | `14.Descriptive-Stat-Region.do`   | Found in the Tables Folder   |
 | Figure 1    | `Figure1.WageReturns.png`                | `7.Wage-Returns-RE.py`            | Found in the Figures Folder  |
 | Figure 2    | `Figure2.Heterogeneity.png`              | `8.Heterogeneity.py`              | Found in the Figures Folder  |
 | Figure 3    | `Figure3.FunnelPlot.png`                 | `9.Funnel-Plot.do`                | Found in the Figures Folder  |
@@ -120,9 +124,6 @@ This will:
 | Figure A7   | `FigureA7.WageReturnsREMain.png`         | `15.Wage-Returns-RE-Main.py`      | Found in the Figures Folder  |
 | Figure A8   | `FigureA8.WageReturnsFEAll.png`          | `17.Wage-Returns-FE-All.py`       | Found in the Figures Folder  |
 | Figure A9   | `FigureA9.WageReturnsREBig5.png`         | `17.Wage-Returns-RE-Big5.py`      | Found in the Figures Folder  |
-| Table 3     | `Table3_DescriptiveStats_Income.xlsx`    | `6.Descriptive-Stat-Income.do`    | Found in the Tables Folder   |
-| Table 4     | `Table4_DescriptiveStats_Training.xlsx`  | `10.Descriptive-Stat-Training.do` | Found in the Tables Folder   |
-| Table A3    | `TableA3_DescriptiveStats_Region.xlsx`   | `14.Descriptive-Stat-Region.do`   | Found in the Tables Folder   |
 
 ---
 
@@ -169,7 +170,7 @@ pip install pandas numpy matplotlib openpyxl
 - **`00-Master-run-all.py`** is a Python master script that:
    - sets project paths,
    - calls Stata do-files in batch mode, and
-   - runs all Python figure scripts.
+   - runs all Python scripts.
 
 ### Stata Setup
 
@@ -177,19 +178,19 @@ pip install pandas numpy matplotlib openpyxl
 
 ### Stata Data Preparation and Analysis Files
 
-- **`1.Pool-Estimates-RE-All.do`** prepares data and runs meta-analysis for wage returns.
+- **`1.Pool-Estimates-RE-All.do`** prepares data and runs meta-analysis for wage returns using random effects.
 
-- **`2.Pool-Estimates-Training.do`** prepares data and runs meta-analysis for training impacts.
+- **`2.Pool-Estimates-Training.do`** prepares data and runs meta-meta-analysis for training impacts using random effects.
 
-- **`3.Pool-Estimates-RE-Main.do`** prepares data and runs meta-analysis for wage returns (literature main specifications).
+- **`3.Pool-Estimates-RE-Main.do`** prepares data and runs meta-analysis for wage returns using random effects (restricted to main specifications in the analyzed papers).
 
-- **`4.Pool-Estimates-FE-All.do`** prepars data and runs meta-analysis for wage returns (fixed effects).
+- **`4.Pool-Estimates-FE-All.do`** prepars data and runs meta-analysis for wage returns using fixed effects.
 
-- **`5.Pool-Estimates-RE-Big5.do`** prepares data and runs meta-analysis for wage returns (only papers controlling for all Big Five personality traits).
+- **`5.Pool-Estimates-RE-Big5.do`** prepares data and runs meta-analysis for wage returns using random effects (restricted to papers controlling for all Big Five personality traits).
 
 ### Stata Table Code
 
-- **`6.Descriptive-Stat-Income.do`**, **`10.Descriptive-Stat-Training.do`**, and **`14.Descriptive-Stat-Region.do`** generate descriptive tables. 
+- **`6.Descriptive-Stat-Income.do`**, **`10.Descriptive-Stat-Training.do`**, and **`14.Descriptive-Stat-Region.do`** generate descriptive statistics tables. 
 
 ### Stata Figure Code
 
@@ -197,7 +198,7 @@ pip install pandas numpy matplotlib openpyxl
 
 ### Python Figure Scripts
 
-- **`7.Wage-Returns-RE.py`**, **`8.Heterogeneity.py`**, **`11.Training-Impact.py`**, **`12.Training-Heterogeneity.py`**, **`15.Wage-Returns-RE-Main.py`**, **`16.Wage-Returns-FE-All.py`**, and **`17.Wage-Returns-RE-Big5.py`** scripts produce figures.
+- **`7.Wage-Returns-RE.py`**, **`8.Heterogeneity.py`**, **`11.Training-Impact.py`**, **`12.Training-Heterogeneity.py`**, **`15.Wage-Returns-RE-Main.py`**, **`16.Wage-Returns-FE-All.py`**, and **`17.Wage-Returns-RE-Big5.py`** generate figures.
 
 ---
 
