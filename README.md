@@ -229,12 +229,12 @@ Code/
 Data/
   ├─ Data_clean.dta
   └─ Training_data_clean.xlsx
-Temp/
-  └─ Intermediate Excel outputs
 Figures/
   └─ Generated figures
 Tables/
   └─ Generated tables
+Temp/
+  └─ Intermediate Excel outputs
 README.md
 README brief.txt
 Paper_Dec27_2025.pdf
