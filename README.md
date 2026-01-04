@@ -236,6 +236,5 @@ Figures/
 Tables/
   └─ Generated tables
 README.md
-.gitignore
 
 
