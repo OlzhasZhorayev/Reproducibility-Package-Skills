@@ -17,6 +17,10 @@ df = pd.read_excel(file_path, sheet_name=sheet2)   # Remaining results (Heterege
 
 # Define desired subgroup order within selected groups
 order_map = {
+    "Big Five": [
+        "Conscientiousness", "Disagreeableness", "Emotional stability", 
+        "Extraversion", "Openness", "Multiple"
+    ],
     "Grade level": [
         "Pre-K", "Primary", "Secondary", "Post-secondary", "Out of school"
     ],
