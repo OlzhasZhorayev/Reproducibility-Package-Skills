@@ -15,6 +15,33 @@ sheet2 = 'Sheet2'
 # Read the specific sheet
 df = pd.read_excel(file_path, sheet_name=sheet2)   # Remaining results (Heteregeneity effects) 
 
+# Define desired subgroup order within selected groups
+order_map = {
+    "Grade level": [
+        "Pre-K", "Primary", "Secondary", "Post-secondary", "Out of school"
+    ],
+    "Instructor": [
+        "Teaching staff", "Other"
+    ],
+    "Duration": [
+        "Less than 1 month", "1 - 3 months", "More than 3 months"
+    ],
+    "Time": [
+        "Immediate", "Follow-up"
+    ]
+}
+
+# Extract base subgroup name (before adding N)
+df["Subgroup_base"] = df["Subgroup"].str.replace(r"\s*\(N =.*\)", "", regex=True)
+
+# Create ordering index
+df["order"] = df.groupby("Group")["Subgroup_base"].transform(
+    lambda x: x.map({v: i for i, v in enumerate(order_map.get(x.name, x.unique()))})
+)
+
+# Sort data
+df = df.sort_values(by=["Group", "order"]).reset_index(drop=True)
+
 # Modify the 'Subgroup' column to include N values
 df['Subgroup'] = df.apply(lambda row: f"{row['Subgroup']} (N = {int(row['N'])})", axis=1)
 
