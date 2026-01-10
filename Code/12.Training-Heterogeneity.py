@@ -71,7 +71,7 @@ df['y_pos'] = np.arange(len(df)) * 1.5  # Adjust the spacing based on row count
 cmap = plt.get_cmap('tab10')
 unique_groups = df['Group'].unique()
 color_map = {group: cmap(i) for i, group in enumerate(unique_groups)}
-df['color'] = df['Group'].map(color_map)
+df['color'] = df['Group'].astype(str).map(color_map)
 
 # Adjust figure height based on the number of rows
 fig_height = len(df) * 0.7  # Calculate height (0.7 or 1.1 height per row)
