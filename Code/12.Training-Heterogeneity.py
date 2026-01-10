@@ -39,6 +39,21 @@ df["order"] = df.groupby("Group")["Subgroup_base"].transform(
     lambda x: x.map({v: i for i, v in enumerate(order_map.get(x.name, x.unique()))})
 )
 
+# Desired order of groups in the plot
+group_order = [
+    "Big Five",
+    "Grade level",
+    "Setting",
+    "Instructor",
+    "Targeting",
+    "Technology",
+    "Duration",
+    "Time"
+]
+
+# Make Group an ordered categorical
+df["Group"] = pd.Categorical(df["Group"], categories=group_order, ordered=True)
+
 # Sort data
 df = df.sort_values(by=["Group", "order"]).reset_index(drop=True)
 
