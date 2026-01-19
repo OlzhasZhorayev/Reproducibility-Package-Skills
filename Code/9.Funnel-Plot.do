@@ -14,7 +14,6 @@ drop if training == "yes"
 keep if ind_var_measure == "Standard deviation"
 
 keep if type == "Big Five"
-
 drop if studylbl == "Chowdhury (2017)"
 
 *******************************************************************************
