@@ -12,7 +12,7 @@ drop if training == "yes"
 
 * Remove if estimates are based on robustness checks,
 * keeping only the authors' preferred specification
-drop if missing(preferred)
+*drop if missing(preferred)
 
 * Papers controlling for all Big Five personality traits
 
@@ -97,7 +97,7 @@ gen group5 = sample_popn if inlist(sample_popn, "Male", "Female")
 gen group6 = methodology if inlist(type, "Big Five")
 
 *******************************************************************************
-* 4. Run Meta-Analysis (RE) and Export Group Results
+* 4. Run Meta-Analysis (Random Effects) and Export Group Results
 *******************************************************************************
 
 * Create Excel sheet and set up headers
