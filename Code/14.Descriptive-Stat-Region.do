@@ -44,7 +44,7 @@ label values gender gender_lbl
 drop if studylbl == "Chowdhury (2017)"
 
 *******************************************************************************
-* 2. Table A3: Descriptive Statistics, Labor Returns Analysis by Region
+* 2. Descriptive Statistics, Labor Returns Analysis by Region
 *******************************************************************************
 
 * Region recode (handles hidden chars/spacing/variants)
