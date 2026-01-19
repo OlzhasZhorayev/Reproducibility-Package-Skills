@@ -4,30 +4,14 @@ do "Setup.do"
 import excel "${data}\Training_data_clean.xlsx", sheet("Database") firstrow clear
 
 *******************************************************************************
-* 1. Descriptive Statistics
-*******************************************************************************
-
-tab Schoollevel
-tab BigFive Schoollevel, col
-tab Learningenvironment Schoollevel, col 	// Setting: classroom or outside
-tab Learningenvironment
-tab Facilitator Schoollevel, col 			// Instructor
-tab Facilitator
-tab Targeting Schoollevel, col
-tab Technologyenhanced Schoollevel, col
-tab Trainingduration Schoollevel, col
-tab Trainingduration
-tab Evaluation Schoollevel, col				// Time
-
-*******************************************************************************
-* 2. Set Meta Variables
+* 1. Set Meta Variables
 *******************************************************************************
 
 replace ES = abs(ES)
 meta set ES SE, studylabel(Filename)
 
 *******************************************************************************
-* 3. Recode Variable Categories 
+* 2. Recode Variable Categories 
 *******************************************************************************
 
 * Recode Agreeableness
@@ -39,27 +23,51 @@ replace Schoollevel = "Primary" if Schoollevel == "ES"
 replace Schoollevel = "Secondary" if Schoollevel == "HS"
 replace Schoollevel = "Post-secondary" if Schoollevel == "PS"
 
+* Merge School level categories
+replace Schoollevel = "Primary or less" ///
+	if Schoollevel == "Pre-K" | Schoollevel == "Primary" 
+replace Schoollevel = "Post-secondary" ///
+	if Schoollevel == "Post-secondary" | Schoollevel == "Out of school" 
+
+* Assign Big Five classification
+replace BigFive = "Openness" ///
+	if Groupingvariable == "Overall" & missing(BigFive)	
+replace BigFive = "" ///
+	if Groupingvariable == "Design" & Evaluation == "Follow-up"	
+replace BigFive = "Openness" if !missing(Learningenvironment) & No == 3	
+replace BigFive = "Extraversion" if !missing(Learningenvironment) & No == 38	
+replace BigFive = "Conscientiousness" ///
+	if !missing(Learningenvironment) & No == 51	
+replace BigFive = "Disagreeableness" if !missing(Facilitator) & No == 16	
+replace BigFive = "Multiple" if !missing(Facilitator) & No == 29	
+replace BigFive = "Multiple" if !missing(Facilitator) & No == 35 
+replace BigFive = "Multiple" if !missing(Facilitator) & No == 38
+replace BigFive = "Conscientiousness" if !missing(Facilitator) & No == 48	
+replace BigFive = "Openness" if !missing(Targeting) & No == 1	
+replace BigFive = "Openness" if !missing(Targeting) & No == 3	
+replace BigFive = "Multiple" if !missing(Targeting) & No == 29	
+replace BigFive = "Extraversion" if !missing(Targeting) & No == 31
+replace BigFive = "Conscientiousness" if !missing(Targeting) & No == 51	
+	
 *******************************************************************************
-* 4. Heterogeneity 
+* 3. Heterogeneity 
 *******************************************************************************
 
 * Define grouping variables
-local groups "group1 group2 group3 group4 group5 group6 group7 group8 group9"
+local groups "group1 group2 group3 group4 group5 group6 group7"
 
 * Generate grouping variables
 gen overall = "Overall effect" if Groupingvariable == "Overall"
 gen group1 = overall
-gen group2 = BigFive
+gen group2 = BigFive if Groupingvariable == "Overall"
 gen group3 = Schoollevel
 gen group4 = Learningenvironment
 gen group5 = Facilitator
 gen group6 = Targeting 
 gen group7 = Technologyenhanced
-gen group8 = Trainingduration  
-gen group9 = Evaluation  
 
 *******************************************************************************
-* 5. Export Group Results 
+* 4. Run Meta-Analysis and Export Group Results 
 *******************************************************************************
       
 * Create Excel sheets and set up headers for both sheets
@@ -82,8 +90,6 @@ label var group4 "Setting"
 label var group5 "Instructor"
 label var group6 "Targeting"
 label var group7 "Technology"
-label var group8 "Duration"
-label var group9 "Time"
 
 * Loop over each group
 local groups "group1 group2 group3 group4 group5 group6 group7 group8 group9"
