@@ -12,7 +12,7 @@ file_path = TEMP_DIR / "Pooled_Estimates_RE_All.xlsx"
 sheet1 = 'Sheet1'
 
 # Read the specific sheet
-df = pd.read_excel(file_path, sheet_name=sheet1)   # Remaining results (Heteregeneity effects) 
+df = pd.read_excel(file_path, sheet_name=sheet1)   # Big Five results  
 
 # Modify the 'Subgroup' column to include N values
 df['Subgroup'] = df.apply(lambda row: f"{row['Subgroup']} (N = {int(row['N'])})", axis=1)
