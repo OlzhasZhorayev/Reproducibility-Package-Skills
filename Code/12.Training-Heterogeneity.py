@@ -13,7 +13,7 @@ file_path = TEMP_DIR / "Pooled_Estimates_Training.xlsx"
 sheet2 = 'Sheet2'
 
 # Read the specific sheet
-df = pd.read_excel(file_path, sheet_name=sheet2)   # Remaining results (Heteregeneity effects) 
+df = pd.read_excel(file_path, sheet_name=sheet2)   # Heteregeneity effects 
 
 # Define desired subgroup order within selected groups
 order_map = {
@@ -22,16 +22,10 @@ order_map = {
         "Extraversion", "Openness", "Multiple"
     ],
     "Grade level": [
-        "Pre-K", "Primary", "Secondary", "Post-secondary", "Out of school"
+        "Primary or less", "Secondary", "Post-secondary"
     ],
     "Instructor": [
         "Teaching staff", "Other"
-    ],
-    "Duration": [
-        "Less than 1 month", "1 - 3 months", "More than 3 months"
-    ],
-    "Time": [
-        "Immediate", "Follow-up"
     ]
 }
 
