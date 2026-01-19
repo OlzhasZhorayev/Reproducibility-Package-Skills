@@ -44,7 +44,7 @@ label values gender gender_lbl
 drop if studylbl == "Chowdhury (2017)"
 
 *******************************************************************************
-* 2. Table 3: Descriptive Statistics, Labor Returns Analysis by Income Group
+* 2. Descriptive Statistics, Labor Returns Analysis by Income Group
 *******************************************************************************
 
 local dev  "Developing Countries"
@@ -168,8 +168,8 @@ postclose T3
 use `t3', clear
 
 * Export, then blank A1 and set Excel headers
-export excel using "${tables}/Table3_DescriptiveStats_Income.xlsx", firstrow(variables) replace
-putexcel set "${tables}/Table3_DescriptiveStats_Income.xlsx", modify
+export excel using "${tables}/Table2_DescriptiveStats_Income.xlsx", firstrow(variables) replace
+putexcel set "${tables}/Table2_DescriptiveStats_Income.xlsx", modify
 putexcel A1 = ""  
 putexcel B1 = "All"
 putexcel C1 = "High income countries"
