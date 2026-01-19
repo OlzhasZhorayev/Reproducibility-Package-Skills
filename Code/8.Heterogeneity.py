@@ -14,6 +14,35 @@ sheet2 = 'Sheet2'
 # Read the specific sheet
 df = pd.read_excel(file_path, sheet_name=sheet2)   # Remaining results (Heteregeneity effects) 
 
+# Define desired subgroup order within selected groups
+order_map = {
+"Methodology": [
+"OLS", "IV"
+]
+}
+
+# Extract base subgroup name (before adding N)
+df["Subgroup_base"] = df["Subgroup"].str.replace(r"\s*\(N =.*\)", "", regex=True)
+
+# Create ordering index
+df["order"] = df.groupby("Group")["Subgroup_base"].transform(
+lambda x: x.map({v: i for i, v in enumerate(order_map.get(x.name, x.unique()))})
+)
+
+# Desired order of groups in the plot
+group_order = [
+"Education",
+"Gender",
+"Income level",
+"Methodology"
+]
+
+# Make Group an ordered categorical
+df["Group"] = pd.Categorical(df["Group"], categories=group_order, ordered=True)
+
+# Sort data
+df = df.sort_values(by=["Group", "order"]).reset_index(drop=True)
+
 # Modify the 'Subgroup' column to include N values
 df['Subgroup'] = df.apply(lambda row: f"{row['Subgroup']} (N = {int(row['N'])})", axis=1)
 
@@ -28,7 +57,7 @@ df['y_pos'] = np.arange(len(df)) * 1.5  # Adjust the spacing based on row count
 cmap = plt.get_cmap('tab10')
 unique_groups = df['Group'].unique()
 color_map = {group: cmap(i) for i, group in enumerate(unique_groups)}
-df['color'] = df['Group'].map(color_map)
+df['color'] = df['Group'].astype(str).map(color_map)
 
 # Adjust figure height based on the number of rows
 fig_height = len(df) * 0.7  # Calculate height (0.7 or 1.1 height per row)
