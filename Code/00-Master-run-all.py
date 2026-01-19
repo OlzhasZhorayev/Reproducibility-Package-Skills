@@ -3,6 +3,9 @@ import subprocess
 import sys
 from pathlib import Path
 
+import time
+start_time = time.time()  # Record start time
+
 REPO_ROOT = Path(__file__).resolve().parent.parent
 CODE_DIR = REPO_ROOT / "Code"
 
@@ -59,3 +62,8 @@ if __name__ == "__main__":
     run_stata("13.Funnel-Plot-Training.do")
 
     print("\n✅ All done!")
+
+end_time = time.time()  # Record end time
+elapsed = end_time - start_time
+print(f"Total runtime: {elapsed/60:.2f} minutes") 
+
