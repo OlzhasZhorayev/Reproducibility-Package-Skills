@@ -95,11 +95,11 @@ $env:STATA_EXE="C:\Program Files\Stata18\StataMP-64.exe"
 python Code/00-Master-run-all.py
 ```
 This will:
-- run all Stata do-files in batch mode;
-- run all Python scripts; 
-- generate intermediate Excel outputs in Temp/; 
-- generate all tables in Tables/;
-- generate all figures in Figures/.
+- run all Stata do-files in batch mode
+- run all Python scripts
+- generate intermediate Excel outputs in Temp/ 
+- generate all tables in Tables/
+- generate all figures in Figures/
 
 ---
 
@@ -115,8 +115,8 @@ This will:
 
 | Exhibit     | Output Filename                          | Script                            | Note                         |
 | ----------- | ---------------------------------------- | --------------------------------- | ---------------------------- |
-| Table 3     | `Table3_DescriptiveStats_Income.xlsx`    | `6.Descriptive-Stat-Income.do`    | Found in the Tables Folder   |
-| Table 4     | `Table4_DescriptiveStats_Training.xlsx`  | `10.Descriptive-Stat-Training.do` | Found in the Tables Folder   |
+| Table 2     | `Table2_DescriptiveStats_Income.xlsx`    | `6.Descriptive-Stat-Income.do`    | Found in the Tables Folder   |
+| Table 3     | `Table3_DescriptiveStats_Training.xlsx`  | `10.Descriptive-Stat-Training.do` | Found in the Tables Folder   |
 | Table A3    | `TableA3_DescriptiveStats_Region.xlsx`   | `14.Descriptive-Stat-Region.do`   | Found in the Tables Folder   |
 | Figure 1    | `Figure1.WageReturns.png`                | `7.Wage-Returns-RE.py`            | Found in the Figures Folder  |
 | Figure 2    | `Figure2.Heterogeneity.png`              | `8.Heterogeneity.py`              | Found in the Figures Folder  |
@@ -161,7 +161,7 @@ pip install pandas numpy matplotlib openpyxl
 
 ### Runtime
 
-- Full pipeline runtime: a few minutes on a standard laptop
+- Full pipeline runtime: approximately 2.5 minutes on a tested laptop
 - Memory usage: modest
 
 ---
@@ -171,9 +171,9 @@ pip install pandas numpy matplotlib openpyxl
 ### Master Script
 
 - **`00-Master-run-all.py`** is a Python master script that:
-   - sets project paths,
-   - calls Stata do-files in batch mode, and
-   - runs all Python scripts.
+   - sets project paths
+   - calls Stata do-files in batch mode
+   - runs all Python scripts
 
 ### Stata Setup
 
@@ -240,6 +240,6 @@ Temp/
   └─ Intermediate Excel outputs
 README.md
 README brief.txt
-Paper_Dec27_2025.pdf
+Manuscript.pdf
 
 
