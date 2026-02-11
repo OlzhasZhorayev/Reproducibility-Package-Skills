@@ -58,7 +58,7 @@ This package relies on two cleaned data files:
    - Used for: Training-impact meta-meta-analysis  
 
 ### Source: 
-**World Bank Development Data Hub** ***(forthcoming)***. The data were collected by the project team. For detailed information on data collection please refer to the **Database Construction** section and **Appendix A** of the paper.
+**World Bank Development Data Hub** *(forthcoming)*. The data were collected by the project team. For detailed information on data collection please refer to the **Database Construction** section and **Appendix A** of the paper.
 
 **Statement about Rights**
 
