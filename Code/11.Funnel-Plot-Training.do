@@ -21,6 +21,6 @@ meta set ES SE, studylabel(Filename)
 *******************************************************************************
 
 meta funnelplot, random
-graph export "${figures}/Figure6.FunnelPlotTraining.png", as(png) replace
+graph export "${figures}/Figure5.FunnelPlotTraining.png", as(png) replace
 
 * End of do-file **************************************************************	
