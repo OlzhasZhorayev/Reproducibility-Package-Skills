@@ -41,25 +41,22 @@ if __name__ == "__main__":
     run_stata("2.Pool-Estimates-Training.do")
     run_stata("3.Pool-Estimates-RE-Main.do")
     run_stata("4.Pool-Estimates-FE-All.do") 
-    run_stata("5.Pool-Estimates-RE-Big5.do")
 
     # --- STATA TABLES ---
-    run_stata("6.Descriptive-Stat-Income.do")
-    run_stata("10.Descriptive-Stat-Training.do")
-    run_stata("14.Descriptive-Stat-Region.do")
+    run_stata("5.Descriptive-Stat-Income.do")
+    run_stata("9.Descriptive-Stat-Training.do")
+    run_stata("12.Descriptive-Stat-Region.do")
 
     # --- PYTHON FIGURES ---
-    run_py("7.Wage-Returns-RE.py")
-    run_py("8.Heterogeneity.py")
-    run_py("11.Training-Impact.py")
-    run_py("12.Training-Heterogeneity.py")
-    run_py("15.Wage-Returns-RE-Main.py")
-    run_py("16.Wage-Returns-FE-All.py")
-    run_py("17.Wage-Returns-RE-Big5.py")
+    run_py("6.Wage-Returns-RE.py")
+    run_py("7.Heterogeneity.py")
+    run_py("10.Training-Impact.py")
+    run_py("13.Wage-Returns-RE-Main.py")
+    run_py("14.Wage-Returns-FE-All.py")
 
     # --- STATA FIGURES ---
-    run_stata("9.Funnel-Plot.do")
-    run_stata("13.Funnel-Plot-Training.do")
+    run_stata("8.Funnel-Plot.do")
+    run_stata("11.Funnel-Plot-Training.do")
 
     print("\n✅ All done!")
 
