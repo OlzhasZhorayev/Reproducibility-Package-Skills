@@ -9,79 +9,152 @@ from Paths import TEMP_DIR, FIG_DIR
 # Read data from the Excel file
 file_path = TEMP_DIR / "Pooled_Estimates_Training.xlsx"
 
-# Specify the sheet name
-sheet1 = 'Sheet1'
+# ── Sheet 1: Overall Effect ───────────────────────────────────────────────────────
+df1 = pd.read_excel(file_path, sheet_name='Sheet1')
 
-# Read the specific sheet
-df = pd.read_excel(file_path, sheet_name=sheet1)   # Overall effect 
+df1['Subgroup'] = df1.apply(lambda row: f"{row['Subgroup']} (N = {int(row['N'])})", 
+                            axis=1)
+df1['CI_lower'] = df1['Theta'] - 1.96 * df1['SE']
+df1['CI_upper'] = df1['Theta'] + 1.96 * df1['SE']
+df1['y_pos'] = np.arange(len(df1)) * 1.5 + 1.0
+df1['source'] = 'sheet1'
 
-# Modify the 'Subgroup' column to include N values
-df['Subgroup'] = df.apply(lambda row: f"{row['Subgroup']} (N = {int(row['N'])})", axis=1)
+# ── Sheet 2: Heterogeneity Effects ────────────────────────────────────────────────
+df2 = pd.read_excel(file_path, sheet_name='Sheet2')
 
-# Calculate the confidence intervals
-df['CI_lower'] = df['Theta'] - 1.96 * df['SE']
-df['CI_upper'] = df['Theta'] + 1.96 * df['SE']
+# Define desired subgroup order within selected groups
+order_map = {
+    "Big Five": [
+        "Conscientiousness", "Disagreeableness", "Emotional stability",
+        "Extraversion", "Openness", "Multiple"
+    ],
+    "Grade level": [
+        "Primary or less", "Secondary", "Post-secondary"
+    ],
+    "Instructor": [
+        "Teaching staff", "Other"
+    ]
+}
 
-# Adjust the space between y-axis ticks for better compactness
-df['y_pos'] = np.arange(len(df)) * 1.5 + 1.0 # Added +1.0 to move up from x-axis
+df2["Subgroup_base"] = df2["Subgroup"].str.replace(r"\s*\(N =.*\)", "", regex=True)
+df2["order"] = df2.groupby("Group")["Subgroup_base"].transform(
+    lambda x: x.map({v: i for i, v in enumerate(order_map.get(x.name, x.unique()))})
+)
 
-# Assign colors to each group
+group_order = [
+    "Big Five", "Grade level", "Setting", 
+    "Instructor", "Targeting", "Technology"
+]
+df2["Group"] = pd.Categorical(df2["Group"], categories=group_order, ordered=True)
+df2 = df2.sort_values(by=["Group", "order"]).reset_index(drop=True)
+
+df2['Subgroup'] = df2.apply(lambda row: f"{row['Subgroup']} (N = {int(row['N'])})", 
+                            axis=1)
+df2['CI_lower'] = df2['Theta'] - 1.96 * df2['SE']
+df2['CI_upper'] = df2['Theta'] + 1.96 * df2['SE']
+df2['source'] = 'sheet2'
+
+# ── Assign y positions: Sheet1 first (small y = top), Sheet2 below with a gap 
+GAP = 2.0  # Adjust to desired gap
+sheet2_y_start = df1['y_pos'].max() + GAP
+df2['y_pos'] = np.arange(len(df2)) * 1.5 + sheet2_y_start
+
+# ── Assign colors consistently across both sheets ─────────────────────────────────
+all_groups = list(df1['Group'].unique()) + [
+    g for g in df2['Group'].unique() if g not in df1['Group'].unique()
+]
 cmap = plt.get_cmap('tab10')
-unique_groups = df['Group'].unique()
-color_map = {group: cmap(i) for i, group in enumerate(unique_groups)}
-df['color'] = df['Group'].map(color_map)
+color_map = {group: cmap(i) for i, group in enumerate(all_groups)}
 
-# Adjust figure height based on the number of rows
-fig_height = len(df) * 0.7 + 1.5 # Height (0.7 per row) + added extra height (1.5)
+df1['color'] = df1['Group'].map(color_map)
+df2['color'] = df2['Group'].astype(str).map(color_map)
 
-# Plot
-fig, ax = plt.subplots(figsize=(20, fig_height))  # Adjust figure height
+# ── Figure setup ──────────────────────────────────────────────────────────────────
+total_rows = len(df1) + len(df2)
+fig_height = total_rows * 0.7 + 3.0
 
-# Set the font to Arial, fallback to default if not found
+fig, ax = plt.subplots(figsize=(20, fig_height))
 plt.rcParams["font.family"] = "Arial"
 
-# Error bars for each subgroup
-for i, row in df.iterrows():
-    ax.errorbar(row['Theta'], row['y_pos'], xerr=[[row['Theta'] - row['CI_lower']], [row['CI_upper'] - row['Theta']]], 
-                fmt='s', capsize=4, markersize=6, color=row['color'])  # 's' makes the marker a square
-    # Add the effect size (Theta) as a text annotation **above** each error bar
-    ax.text(row['Theta'], row['y_pos'] + 0.4, f"{row['Theta']:.3f}",  # Changed from -0.4 to +0.4 to put the effect label above
-            ha='center', va='center', fontsize=14, color='black') 
+# ── Plot Sheet1 rows ──────────────────────────────────────────────────────────────
+for _, row in df1.iterrows():
+    ax.errorbar(
+        row['Theta'], row['y_pos'],
+        xerr=[[row['Theta'] - row['CI_lower']], [row['CI_upper'] - row['Theta']]],
+        fmt='s', capsize=4, markersize=6, color=row['color']
+    )
+    ax.text(row['Theta'], row['y_pos'] + 0.4, f"{row['Theta']:.3f}",
+            ha='center', va='center', fontsize=14, color='black')
 
-# Add a vertical line at zero
+# ── Plot Sheet2 rows ──────────────────────────────────────────────────────────────
+for _, row in df2.iterrows():
+    ax.errorbar(
+        row['Theta'], row['y_pos'],
+        xerr=[[row['Theta'] - row['CI_lower']], [row['CI_upper'] - row['Theta']]],
+        fmt='s', capsize=4, markersize=6, color=row['color']
+    )
+    ax.text(row['Theta'], row['y_pos'] - 0.4, f"{row['Theta']:.3f}",
+            ha='center', va='center', fontsize=14, color='black')
+
+# ── Vertical reference line at zero ───────────────────────────────────────────────
 ax.axvline(x=0, color='black', linestyle='--', linewidth=1)
 
-# Customize axis ticks and labels
-ax.set_yticks(df['y_pos'])
-ax.set_yticklabels(df['Subgroup'], fontsize=14)
-ax.invert_yaxis()
+# ── Y-axis ticks and labels (combined) ────────────────────────────────────────────
+combined_y = list(df1['y_pos']) + list(df2['y_pos'])
+combined_labels = list(df1['Subgroup']) + list(df2['Subgroup'])
+ax.set_yticks(combined_y)
+ax.set_yticklabels(combined_labels, fontsize=14)
 ax.set_xlabel('Effect size', fontsize=16, fontweight='bold')
 ax.tick_params(axis='x', labelsize=14)
 
-# Remove the top and right spines (the "box" effect)
+# ── Invert axis FIRST, then set limits in (large, small) order ────────────────────
+# Passing (max, min) after invert_yaxis ensures Sheet1 (small y) stays at TOP
+# and Sheet2 (large y) stays at BOTTOM, preventing the axis from being flipped back
+ax.invert_yaxis()
+ax.set_ylim(df2['y_pos'].max() + 2.0, df1['y_pos'].min() - 2.5)
+
+# ── Spines ────────────────────────────────────────────────────────────────────────
 ax.spines['top'].set_visible(False)
 ax.spines['right'].set_visible(False)
 
-# Add vertical group labels to the side of the plot and move group labels to the left
-for group in df['Group'].unique():
-    group_data = df[df['Group'] == group]
-    mid_pos = (group_data['y_pos'].min() + group_data['y_pos'].max()) / 2  # Calculate a middle position for the group
-    ax.text(-0.55, mid_pos, group,  # Adjust the Group label position to the left: -0.30 for sheet1
-            verticalalignment='center', horizontalalignment='center', 
-            color='black', fontsize=16, rotation=0, fontweight='bold')  
+# ── Group labels (bold, left of y-axis) ───────────────────────────────────────────
+GROUP_LABEL_X = -0.55
 
-# Add horizontal grey dashed lines between groups
-for group in unique_groups:
-    group_data = df[df['Group'] == group]
-    upper_bound = group_data['y_pos'].max() + 1.5  # Above (adjusted from lower_bound to upper_bound and from min to max) 
-    ax.hlines(y=upper_bound, xmin=-0.02, xmax=1.0, color='gray', linestyle='--', linewidth=0.5) 
-    # Adjust xmax = 1.0 for Sheet1
+for group in df1['Group'].unique():
+    group_data = df1[df1['Group'] == group]
+    mid_pos = (group_data['y_pos'].min() + group_data['y_pos'].max()) / 2
+    ax.text(GROUP_LABEL_X, mid_pos, group,
+            verticalalignment='center', horizontalalignment='center',
+            color='black', fontsize=16, rotation=0, fontweight='bold')
 
-# Adjust the y-axis limits for the new y position (to move estimate dot and CI line up)
-ax.set_ylim(-1, df['y_pos'].max() + 2)  # Add buffer at top and bottom
+for group in df2['Group'].unique():
+    group_data = df2[df2['Group'] == group]
+    mid_pos = (group_data['y_pos'].min() + group_data['y_pos'].max()) / 2
+    ax.text(GROUP_LABEL_X, mid_pos, str(group),
+            verticalalignment='center', horizontalalignment='center',
+            color='black', fontsize=16, rotation=0, fontweight='bold')
 
-# Adjust layout and save the plot
+# ── Separator dashed lines within Sheet1 groups ───────────────────────────────────
+last_sheet1_group = df1['Group'].unique()[-1]
+for group in df1['Group'].unique():
+    if group == last_sheet1_group:
+        continue  # Skip the bottom separator, 
+                  # as Sheet2 already draws one at the top of its first group
+    group_data = df1[df1['Group'] == group]
+    upper_bound = group_data['y_pos'].max() + 1.5
+    ax.hlines(y=upper_bound, xmin=-0.02, xmax=1.0,
+              color='gray', linestyle='--', linewidth=0.5)
+
+# ── Separator dashed lines within Sheet2 groups ───────────────────────────────────
+for group in df2['Group'].unique():
+    group_data = df2[df2['Group'] == group]
+    lower_bound = group_data['y_pos'].min() - 0.9
+    ax.hlines(y=lower_bound, xmin=-0.02, xmax=1.0,
+              color='gray', linestyle='--', linewidth=0.5)
+
+# ── Layout and save ───────────────────────────────────────────────────────────────
 plt.subplots_adjust(left=0.45, right=0.9, top=0.95, bottom=0.1)
 output_file = FIG_DIR / "Figure4.TrainingImpact.png"
-plt.savefig(output_file, dpi=300, bbox_inches='tight')  # Change dpi (dots per inch) for the resolution of the image
-plt.close(fig)  # Clear the figure from memory
+plt.savefig(output_file, dpi=300, bbox_inches='tight')
+plt.close(fig)
+
