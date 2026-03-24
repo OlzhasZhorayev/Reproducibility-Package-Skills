@@ -7,7 +7,7 @@
 ## 1. Overview
 
 This reproducibility package contains the data processing, analysis, and visualization code used in the paper:
-**"Labor Market Returns to Socio-Emotional Traits and the Impacts of Training Programs: A Meta-Analysis"**
+**"Do Socio-Emotional Skills Pay Off and Can They Be Developed Through Training? A Meta-Analysis"**
 
 ### Collaborators
 - **Diego Angel-Urdinola**¹  
@@ -115,18 +115,16 @@ This will:
 
 | Exhibit     | Output Filename                          | Script                            | Note                         |
 | ----------- | ---------------------------------------- | --------------------------------- | ---------------------------- |
-| Table 2     | `Table2_DescriptiveStats_Income.xlsx`    | `6.Descriptive-Stat-Income.do`    | Found in the Tables Folder   |
-| Table 3     | `Table3_DescriptiveStats_Training.xlsx`  | `10.Descriptive-Stat-Training.do` | Found in the Tables Folder   |
-| Table A3    | `TableA3_DescriptiveStats_Region.xlsx`   | `14.Descriptive-Stat-Region.do`   | Found in the Tables Folder   |
-| Figure 1    | `Figure1.WageReturns.png`                | `7.Wage-Returns-RE.py`            | Found in the Figures Folder  |
-| Figure 2    | `Figure2.Heterogeneity.png`              | `8.Heterogeneity.py`              | Found in the Figures Folder  |
-| Figure 3    | `Figure3.FunnelPlot.png`                 | `9.Funnel-Plot.do`                | Found in the Figures Folder  |
-| Figure 4    | `Figure4.TrainingImpact.png`             | `11.Training-Impact.py`           | Found in the Figures Folder  |
-| Figure 5    | `Figure5.TrainingHeterogeneity.png`      | `12.Training-Heterogeneity.py`    | Found in the Figures Folder  |
-| Figure 6    | `Figure6.FunnelPlotTraining.png`         | `13.Funnel-Plot-Training.do`      | Found in the Figures Folder  |
-| Figure A7   | `FigureA7.WageReturnsREMain.png`         | `15.Wage-Returns-RE-Main.py`      | Found in the Figures Folder  |
-| Figure A8   | `FigureA8.WageReturnsFEAll.png`          | `17.Wage-Returns-FE-All.py`       | Found in the Figures Folder  |
-| Figure A9   | `FigureA9.WageReturnsREBig5.png`         | `17.Wage-Returns-RE-Big5.py`      | Found in the Figures Folder  |
+| Table 2     | `Table2_DescriptiveStats_Income.xlsx`    | `05.Descriptive-Stat-Income.do`   | Found in the Tables Folder   |
+| Table 3     | `Table3_DescriptiveStats_Training.xlsx`  | `09.Descriptive-Stat-Training.do` | Found in the Tables Folder   |
+| Table A3    | `TableA3_DescriptiveStats_Region.xlsx`   | `12.Descriptive-Stat-Region.do`   | Found in the Tables Folder   |
+| Figure 1    | `Figure1.WageReturns.png`                | `06.Wage-Returns-RE.py`           | Found in the Figures Folder  |
+| Figure 2    | `Figure2.Heterogeneity.png`              | `07.Heterogeneity.py`             | Found in the Figures Folder  |
+| Figure 3    | `Figure3.FunnelPlot.png`                 | `08.Funnel-Plot.do`               | Found in the Figures Folder  |
+| Figure 4    | `Figure4.TrainingImpact.png`             | `10.Training-Impact.py`           | Found in the Figures Folder  |
+| Figure 5    | `Figure5.FunnelPlotTraining.png`         | `11.Funnel-Plot-Training.do`      | Found in the Figures Folder  |
+| Figure A6   | `FigureA6.WageReturnsREMain.png`         | `13.Wage-Returns-RE-Main.py`      | Found in the Figures Folder  |
+| Figure A7   | `FigureA7.WageReturnsFEAll.png`          | `14.Wage-Returns-FE-All.py`       | Found in the Figures Folder  |
 
 ---
 
@@ -181,27 +179,25 @@ pip install pandas numpy matplotlib openpyxl
 
 ### Stata Data Preparation and Analysis Files
 
-- **`1.Pool-Estimates-RE-All.do`** prepares data and runs meta-analysis for wage returns using random effects.
+- **`01.Pool-Estimates-RE-All.do`** prepares data and runs meta-analysis for wage returns using random effects.
 
-- **`2.Pool-Estimates-Training.do`** prepares data and runs meta-meta-analysis for training impacts using random effects.
+- **`02.Pool-Estimates-Training.do`** prepares data and runs meta-meta-analysis for training impacts using random effects.
 
-- **`3.Pool-Estimates-RE-Main.do`** prepares data and runs meta-analysis for wage returns using random effects (restricted to main specifications in the analyzed papers).
+- **`03.Pool-Estimates-RE-Main.do`** prepares data and runs meta-analysis for wage returns using random effects (restricted to main specifications in the analyzed papers).
 
-- **`4.Pool-Estimates-FE-All.do`** prepars data and runs meta-analysis for wage returns using fixed effects.
-
-- **`5.Pool-Estimates-RE-Big5.do`** prepares data and runs meta-analysis for wage returns using random effects (restricted to papers controlling for all Big Five personality traits).
+- **`04.Pool-Estimates-FE-All.do`** prepars data and runs meta-analysis for wage returns using fixed effects.
 
 ### Stata Table Code
 
-- **`6.Descriptive-Stat-Income.do`**, **`10.Descriptive-Stat-Training.do`**, and **`14.Descriptive-Stat-Region.do`** generate descriptive statistics tables. 
+- **`05.Descriptive-Stat-Income.do`**, **`09.Descriptive-Stat-Training.do`**, and **`12.Descriptive-Stat-Region.do`** generate descriptive statistics tables. 
 
 ### Stata Figure Code
 
-- **`9.Funnel-Plot.do`** and **`13.Funnel-Plot-Training.do`** generate funnel plots.
+- **`08.Funnel-Plot.do`** and **`11.Funnel-Plot-Training.do`** generate funnel plots.
 
 ### Python Figure Scripts
 
-- **`7.Wage-Returns-RE.py`**, **`8.Heterogeneity.py`**, **`11.Training-Impact.py`**, **`12.Training-Heterogeneity.py`**, **`15.Wage-Returns-RE-Main.py`**, **`16.Wage-Returns-FE-All.py`**, and **`17.Wage-Returns-RE-Big5.py`** generate figures.
+- **`06.Wage-Returns-RE.py`**, **`07.Heterogeneity.py`**, **`10.Training-Impact.py`**, **`13.Wage-Returns-RE-Main.py`**, and **`14.Wage-Returns-FE-All.py`** generate figures.
 
 ---
 
@@ -210,25 +206,22 @@ pip install pandas numpy matplotlib openpyxl
 ```text
 Code/
   ├─ 00-Master-run-all.py
+  ├─ 01.Pool-Estimates-RE-All.do
+  ├─ 02.Pool-Estimates-Training.do
+  ├─ 03.Pool-Estimates-RE-Main.do
+  ├─ 04.Pool-Estimates-FE-All.do
+  ├─ 05.Descriptive-Stat-Income.do
+  ├─ 06.Wage-Returns-RE.py
+  ├─ 07.Heterogeneity.py
+  ├─ 08.Funnel-Plot.do
+  ├─ 09.Descriptive-Stat-Training.do  
+  ├─ 10.Training-Impact.py
+  ├─ 11.Funnel-Plot-Training.do
+  ├─ 12.Descriptive-Stat-Region.do   
+  ├─ 13.Wage-Returns-RE-Main.py
+  ├─ 14.Wage-Returns-FE-All.py  
   ├─ Paths.py
-  ├─ Setup.do
-  ├─ 1.Pool-Estimates-RE-All.do
-  ├─ 2.Pool-Estimates-Training.do
-  ├─ 3.Pool-Estimates-RE-Main.do
-  ├─ 4.Pool-Estimates-FE-All.do
-  ├─ 5.Pool-Estimates-RE-Big5.do
-  ├─ 6.Descriptive-Stat-Income.do
-  ├─ 7.Wage-Returns-RE.py
-  ├─ 8.Heterogeneity.py
-  ├─ 9.Funnel-Plot.do
-  ├─ 10.Descriptive-Stat-Training.do  
-  ├─ 11.Training-Impact.py
-  ├─ 12.Training-Heterogeneity.py
-  ├─ 13.Funnel-Plot-Training.do
-  ├─ 14.Descriptive-Stat-Region.do   
-  ├─ 15.Wage-Returns-RE-Main.py
-  ├─ 16.Wage-Returns-FE-All.py  
-  └─ 17.Wage-Returns-RE-Big5.py
+  └─ Setup.do
 Data/
   ├─ Data_clean.dta
   └─ Training_data_clean.xlsx
