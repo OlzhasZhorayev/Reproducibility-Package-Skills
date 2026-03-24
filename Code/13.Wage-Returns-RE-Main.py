@@ -111,6 +111,6 @@ for group in unique_groups:
 
 # Adjust layout and save the plot
 plt.subplots_adjust(left=0.45, right=0.9, top=0.95, bottom=0.1)
-output_file = FIG_DIR / "FigureA7.WageReturnsREMain.png" 
+output_file = FIG_DIR / "FigureA6.WageReturnsREMain.png" 
 plt.savefig(output_file, dpi=300, bbox_inches='tight')  # Change dpi (dots per inch) for the resolution of the image
 plt.close(fig)  # Clear the figure from memory
