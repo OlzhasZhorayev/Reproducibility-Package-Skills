@@ -231,9 +231,8 @@ Tables/
   └─ Generated tables
 Temp/
   └─ Intermediate Excel outputs
+LICENSE.txt
 README.md
 README brief.txt
 Working_Paper.pdf
 Reproducibility_Report.pdf
-
-
