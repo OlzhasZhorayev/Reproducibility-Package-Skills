@@ -13,3 +13,8 @@ Temp/*
 !Figures/.gitkeep
 !Tables/.gitkeep
 !Temp/.gitkeep
+
+# Private data files
+Data/*
+!Data/.gitkeep
+
