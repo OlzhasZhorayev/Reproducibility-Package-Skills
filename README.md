@@ -66,7 +66,7 @@ This package relies on two cleaned data files:
 - ☐ I certify that the author(s) of the manuscript have documented permission to redistribute/publish the data contained within this replication package. Appropriate permission are documented in the LICENSE.txt file.
 
 **Data Access Note**  
-All data used in this project are available upon request to the authors. The data are **included in a private GitHub repository for authorized replicators**. 
+Data are limited-access and have not been included in the reproducibility package. They will be made available through the **World Bank Development Data Hub** in the future. 
 
 ---
 
@@ -233,6 +233,7 @@ Temp/
   └─ Intermediate Excel outputs
 README.md
 README brief.txt
-Manuscript.pdf
+Working_Paper.pdf
+Reproducibility_Report.pdf
 
 
