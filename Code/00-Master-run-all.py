@@ -37,25 +37,25 @@ if __name__ == "__main__":
     run_stata("Setup.do")
 
     # --- DATA PREPARATION (Stata) ---
-    run_stata("1.Pool-Estimates-RE-All.do")
-    run_stata("2.Pool-Estimates-Training.do")
-    run_stata("3.Pool-Estimates-RE-Main.do")
-    run_stata("4.Pool-Estimates-FE-All.do") 
+    run_stata("01.Pool-Estimates-RE-All.do")
+    run_stata("02.Pool-Estimates-Training.do")
+    run_stata("03.Pool-Estimates-RE-Main.do")
+    run_stata("04.Pool-Estimates-FE-All.do") 
 
     # --- STATA TABLES ---
-    run_stata("5.Descriptive-Stat-Income.do")
-    run_stata("9.Descriptive-Stat-Training.do")
+    run_stata("05.Descriptive-Stat-Income.do")
+    run_stata("09.Descriptive-Stat-Training.do")
     run_stata("12.Descriptive-Stat-Region.do")
 
     # --- PYTHON FIGURES ---
-    run_py("6.Wage-Returns-RE.py")
-    run_py("7.Heterogeneity.py")
+    run_py("06.Wage-Returns-RE.py")
+    run_py("07.Heterogeneity.py")
     run_py("10.Training-Impact.py")
     run_py("13.Wage-Returns-RE-Main.py")
     run_py("14.Wage-Returns-FE-All.py")
 
     # --- STATA FIGURES ---
-    run_stata("8.Funnel-Plot.do")
+    run_stata("08.Funnel-Plot.do")
     run_stata("11.Funnel-Plot-Training.do")
 
     print("\n✅ All done!")
