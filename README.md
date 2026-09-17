@@ -7,7 +7,7 @@
 ## 1. Overview
 
 This reproducibility package contains the data processing, analysis, and visualization code used in the paper:
-**"Do Socio-Emotional Skills Pay Off and Can They Be Developed Through Training? A Meta-Analysis"**
+[**"Do Socio-Emotional Skills Pay Off and Can They Be Developed Through Training? A Meta-Analysis"**](https://doi.org/10.1596/1813-9450-11384)
 
 ### Collaborators
 - **Diego Angel-Urdinola**¹  
